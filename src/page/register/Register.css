@@ -1,0 +1,120 @@
+/* src/Register.css */
+.register-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: url("../../assets/background-register.png") no-repeat center
+    center fixed;
+  background-size: cover;
+}
+
+.register-box {
+  background-color: rgba(0, 0, 0, 0.7);
+  padding: 40px;
+  border-radius: 10px;
+  text-align: center;
+  color: white;
+  width: 30rem;
+  max-width: 90%;
+}
+
+.register-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.register-logo {
+  width: 120px;
+  height: 70px;
+  margin-right: 10px;
+}
+
+.input-group {
+  margin-bottom: 15px;
+  text-align: left;
+}
+
+#username,
+#password,
+#confirm-password {
+  background-color: rgba(0, 0, 0, 0.01);
+  border: grey solid 1px;
+  border-radius: 30px;
+  padding-left: 10px;
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.input-group input {
+  width: 93%;
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+}
+
+.password-input {
+  position: relative;
+}
+
+.show-password {
+  position: absolute;
+  right: 30px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
+.register-options {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+  text-decoration: none;
+  color: white;
+}
+
+.register-button {
+  width: 100%;
+  padding: 10px;
+  border-radius: 15px;
+  border: pointer;
+  background-color: #3d4142;
+  color: white;
+  border: grey solid 1px;
+}
+
+.google-logo {
+  width: 20px;
+  height: 20px;
+  opacity: 1;
+}
+
+.google-register-button {
+  width: 100%;
+  padding: 10px;
+  border-radius: 15px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  background-color: rgba(0, 0, 0, 0.01);
+  border: grey solid 0.5px;
+  color: white;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.google-register-button img {
+  margin-right: 10px;
+}
+
+.divider {
+  margin-top: 15px;
+  margin-bottom: 15px;
+  font-size: 13px;
+}

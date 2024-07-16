@@ -1,0 +1,75 @@
+/* src/Footer.css */
+.footer {
+  background-color: #111;
+  color: white;
+  padding: 60px 0;
+}
+
+.footer-content {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  text-align: left;
+}
+
+.footer-logo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.footer-logo .logo {
+  width: 50px;
+  margin-bottom: 10px;
+}
+
+.footer-genres,
+.footer-help {
+  margin-bottom: 20px;
+}
+
+.footer-genres ul,
+.footer-help ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.footer-genres li,
+.footer-help li {
+  margin-bottom: 5px;
+}
+
+.footer-genres h4,
+.footer-help h4 {
+  margin-bottom: 10px;
+}
+
+.footer-genres-list {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.footer-genres {
+  width: 50rem;
+}
+
+.chill-logo {
+  width: 9em;
+}
+
+.footer-genres-list {
+  text-decoration: none;
+  color: white;
+  padding: 0.8%;
+  display: block;
+}
+
+.footer-genres-group {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}

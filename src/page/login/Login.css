@@ -1,0 +1,140 @@
+/* src/Login.css */
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: url(../../assets/background-login.png) no-repeat center center
+    fixed;
+  background-size: cover;
+}
+
+.login-box {
+  background-color: rgba(0, 0, 0, 0.7);
+  padding: 40px;
+  border-radius: 10px;
+  text-align: center;
+  color: white;
+  width: 30rem;
+  max-width: 90%;
+}
+.login-headergreet {
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  /* height: 30px; */
+}
+
+.login-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.login-logo {
+  width: 120px;
+  height: 70px;
+  margin-right: 10px;
+}
+
+.input-group {
+  margin-bottom: 15px;
+  text-align: left;
+}
+
+#username,
+#password {
+  background-color: rgba(0, 0, 0, 0.01);
+  border: grey solid 1px;
+  border-radius: 30px;
+  padding-left: 10px;
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.input-group input {
+  width: 93%;
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+}
+
+.password-input {
+  position: relative;
+}
+
+.show-password {
+  position: absolute;
+  right: 30px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
+.login-options {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+.register,
+.forgot-password {
+  color: white;
+  text-decoration: none;
+  font-size: 13px;
+}
+
+.login-button {
+  width: 100%;
+  padding: 10px;
+  border-radius: 15px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  background-color: #3d4142;
+  color: white;
+  border: grey solid 1px;
+}
+
+.google-logo {
+  width: 20px;
+  height: 20px;
+  opacity: 1;
+}
+
+.google-login-button {
+  width: 100%;
+  padding: 10px;
+  border-radius: 15px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  background-color: rgba(0, 0, 0, 0.01);
+  border: grey solid 0.5px;
+
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.google-login-button img {
+  margin-right: 10px;
+}
+
+.divider {
+  margin-bottom: 15px;
+  font-size: 13px;
+}
+
+/* .divider::after {
+  content: "Atau";
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.7);
+  padding: 0 10px;
+} */

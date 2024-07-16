@@ -1,0 +1,104 @@
+.banner {
+  color: white;
+  object-fit: contain;
+  height: 448px;
+}
+
+.banner__contents {
+  margin-left: 30px;
+  padding-top: 140px;
+  height: 190px;
+}
+
+.banner__title {
+  font-size: 3rem;
+  font-weight: 800;
+  padding-bottom: 0.3rem;
+}
+
+.banner__description {
+  width: 45rem;
+  line-height: 1.3;
+  padding-top: 1rem;
+  font-size: 0.8rem;
+  max-width: 360px;
+  height: 80px;
+}
+
+.banner__buttons {
+  padding-bottom: 0.5rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.banner__buttonleft {
+  cursor: pointer;
+  color: #fff;
+  outline: none;
+  border: none;
+  font-weight: 700;
+  border-radius: 0.2vw;
+  padding-left: 2rem;
+  padding-right: 2rem;
+  margin-right: 1rem;
+  padding-top: 0.5rem;
+  background-color: rgba(51, 51, 51, 0.5);
+  padding-bottom: 0.5rem;
+}
+
+.banner__button__start {
+  background-color: blue;
+}
+
+.banner__button__more {
+  border: white solid 0.5px;
+}
+
+.banner__button__age {
+  background-color: rgba(51, 51, 51, 0.5);
+  padding-top: 0.5rem;
+  background-color: rgba(51, 51, 51, 0.5);
+  padding-bottom: 0.5rem;
+  border: white solid 0.5px;
+  font-weight: 900;
+  border-radius: 20px;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  padding-top: 0.4rem;
+  background-color: rgba(51, 51, 51, 0.5);
+  padding-bottom: 0.4rem;
+}
+
+.banner__buttonright {
+  cursor: pointer;
+  color: #fff;
+  outline: none;
+  border: white solid 0.5px;
+  font-weight: 900;
+  border-radius: 20px;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  margin-right: 3rem;
+  padding-top: 0.5rem;
+  background-color: rgba(51, 51, 51, 0.5);
+  padding-bottom: 0.5rem;
+  display: flex;
+}
+
+.banner__buttonleft:hover,
+.banner__buttonright:hover {
+  color: #000;
+  background-color: #e6e6e6;
+  transition: all 0.2s;
+}
+
+.banner__fadeBottom {
+  height: 7.4rem;
+  background-image: linear-gradient(
+    180deg,
+    transparent,
+    rgba(37, 37, 37, 0.61),
+    #111
+  );
+}
