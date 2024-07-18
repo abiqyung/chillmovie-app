@@ -37,10 +37,12 @@ function Nav() {
               <i className="fas fa-star dropdown-icon"></i>
               {"     "}Ubah Premium
             </div>
-            <div className="dropdown-item">
-              <i className="fas fa-sign-out-alt dropdown-icon"></i>
-              {"     "}Keluar
-            </div>
+            <a href="/login">
+              <div className="dropdown-item">
+                <i className="fas fa-sign-out-alt dropdown-icon"></i>
+                {"     "}Keluar
+              </div>
+            </a>
           </div>
         )}
       </div>
