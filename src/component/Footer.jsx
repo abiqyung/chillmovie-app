@@ -61,10 +61,10 @@ function Footer() {
         <div className="footer-help">
           <h4>Bantuan</h4>
           <ul>
-            <li>FAQ</li>
-            <li>Kontak Kami</li>
-            <li>Privasi</li>
-            <li>Syarat & Ketentuan</li>
+            <li className="footer-help-list">FAQ</li>
+            <li className="footer-help-list">Kontak Kami</li>
+            <li className="footer-help-list">Privasi</li>
+            <li className="footer-help-list">Syarat & Ketentuan</li>
           </ul>
         </div>
       </div>

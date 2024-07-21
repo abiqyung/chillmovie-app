@@ -2,12 +2,12 @@
 .footer {
   background-color: #111;
   color: white;
-  padding: 60px 0;
+  padding: 60px 30px;
 }
 
 .footer-content {
   display: flex;
-  justify-content: space-around;
+  /* justify-content: space-around; */
   flex-wrap: wrap;
   text-align: left;
 }
@@ -17,6 +17,7 @@
   flex-direction: column;
   align-items: center;
   margin-bottom: 20px;
+  padding: 10px;
 }
 
 .footer-logo .logo {
@@ -54,7 +55,8 @@
 }
 
 .footer-genres {
-  width: 50rem;
+  width: 40rem;
+  padding-left: 4rem;
 }
 
 .chill-logo {
@@ -70,6 +72,48 @@
 
 .footer-genres-group {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 10px;
+  grid-template-columns: 0.8fr 1.2fr 0.7fr 1fr;
+  gap: 5px;
+}
+
+@media (max-width: 700px) {
+  .footer-logo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  .footer-logo .logo {
+    width: 50px;
+    margin-bottom: 10px;
+  }
+
+  .chill-logo {
+    width: 4em;
+  }
+
+  p {
+    font-size: 0.6rem;
+  }
+
+  .footer-genres {
+    width: 20rem;
+    padding-left: 1rem;
+  }
+
+  .footer-genres-list,
+  .footer-help-list {
+    text-decoration: none;
+    color: white;
+    padding: 0.8%;
+    display: block;
+    font-size: 0.65rem;
+  }
+
+  .footer-genres-group {
+    display: grid;
+    grid-template-columns: 0.8fr 1.5fr 0.7fr 0.8fr;
+    gap: 5px;
+  }
 }
