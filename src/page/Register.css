@@ -4,8 +4,8 @@
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background: url("../../assets/background-register.png") no-repeat center
-    center fixed;
+  background: url("../assets/background-register.png") no-repeat center center
+    fixed;
   background-size: cover;
 }
 
@@ -44,6 +44,7 @@
   border: grey solid 1px;
   border-radius: 30px;
   padding-left: 10px;
+  color: white;
 }
 
 .input-group label {

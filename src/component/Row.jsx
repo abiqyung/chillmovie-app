@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "../axios";
 import "./Row.css";
+import { Button } from "react-bootstrap";
 
 const base_url = "https://image.tmdb.org/t/p/original/";
 
@@ -16,7 +17,7 @@ function Row({ title, fetchUrl, isLargeRow }) {
     fetchData();
   }, [fetchUrl]);
 
-  console.log(movies);
+  // console.log(movies);
   return (
     <div className="row">
       <h2>{title}</h2>
@@ -36,11 +37,26 @@ function Row({ title, fetchUrl, isLargeRow }) {
               }`}
               alt={movie.name}
             />
+            {/* We should change this */}
             <div className="movie-info">
               <div className="movie-buttons">
-                <button className="play-button">▶</button>
-                <button className="check-button">✔</button>
-                <button className="drop-button">▼</button>
+                <button class="play-button">
+                  <i class="fas fa-play"></i>
+                </button>
+
+                <button className="checklist-button">
+                  <i className="fas fa-check"></i>
+                </button>
+
+                <button
+                  className="dropdown-button"
+                  type="button"
+                  id="dropdownMenuButton"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  <i class="fa-solid fa-caret-down"></i>
+                </button>
               </div>
               <div className="movie-details">
                 <span className="movie-age">13+</span>

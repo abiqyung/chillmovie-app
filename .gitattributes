@@ -1,0 +1,12 @@
+# Ensure text files have normalized (LF) line endings
+* text=auto
+
+# Explicitly declare text files you want to always be normalized and converted
+# to native line endings on checkout.
+*.js text eol=lf
+*.json text eol=lf
+*.html text eol=lf
+
+# Binary files should be treated as binary and not modified
+*.png binary
+*.jpg binary

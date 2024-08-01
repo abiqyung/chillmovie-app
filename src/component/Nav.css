@@ -40,6 +40,9 @@
   padding-left: 85px;
   padding-top: 10px;
 }
+.nav__menu:hover {
+  color: rgb(169, 181, 228);
+}
 
 .profile-dropdown {
   position: fixed;
