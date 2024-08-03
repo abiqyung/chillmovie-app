@@ -20,13 +20,17 @@ const Profile = () => {
   const user = useSelector(selectUser);
   const dispatch = useDispatch();
 
-  const [name, setName] = useState(user.name);
-  const [email, setEmail] = useState(user.email);
+  const [name, setName] = useState(user.username || ""); // Use username from Redux state
+  const [email, setEmail] = useState(user.email || "");
   const [password, setPassword] = useState("");
-  const [profilePicture, setProfilePicture] = useState(defaultProfile);
+  const [profilePicture, setProfilePicture] = useState(
+    user.profilePicture || defaultProfile
+  ); // Use profilePicture from Redux state
+  const [newProfilePicture, setNewProfilePicture] = useState(null);
+  const [uploading, setUploading] = useState(false);
 
   useEffect(() => {
-    setName(user.name);
+    setName(user.username); // Use username from Redux state
     setEmail(user.email);
     if (user.profilePicture) {
       setProfilePicture(user.profilePicture);
@@ -34,44 +38,67 @@ const Profile = () => {
   }, [user]);
 
   const handleSave = async () => {
-    // Update username and email
-    dispatch(updateUser({ name, email }));
+    try {
+      let photoURL = profilePicture;
 
-    // Update password if provided
-    if (password) {
-      try {
+      // If a new profile picture was uploaded, update it in Firebase Storage
+      if (newProfilePicture) {
+        const storageRef = ref(
+          storage,
+          `profilePictures/${auth.currentUser.uid}`
+        );
+        await uploadBytes(storageRef, newProfilePicture);
+        photoURL = await getDownloadURL(storageRef);
+
+        // Update the user's profile picture in Firestore
+        await updateDoc(doc(db, "users", auth.currentUser.uid), {
+          profilePicture: photoURL,
+        });
+      }
+
+      // Update username and email
+      await updateDoc(doc(db, "users", auth.currentUser.uid), {
+        username: name,
+        email: email,
+        profilePicture: photoURL,
+      });
+
+      // Update password if provided
+      if (password) {
         await updatePassword(auth.currentUser, password);
         alert("Password updated successfully");
-      } catch (error) {
-        console.error("Error updating password:", error);
-        alert(error.message);
       }
+
+      // Update Redux state
+      dispatch(updateUser({ username: name, email, profilePicture: photoURL })); // Use username
+      alert("Profile updated successfully");
+    } catch (error) {
+      console.error("Error updating profile:", error);
+      alert(error.message);
     }
   };
 
-  const handleProfilePictureChange = async (e) => {
+  const handleProfilePictureChange = (e) => {
     const file = e.target.files[0];
     if (!file) return;
 
-    const storageRef = ref(storage, `profilePictures/${auth.currentUser.uid}`);
-    await uploadBytes(storageRef, file);
+    setNewProfilePicture(file);
 
-    const photoURL = await getDownloadURL(storageRef);
-    setProfilePicture(photoURL);
-
-    // Update the user's profile picture in Firestore
-    await updateDoc(doc(db, "users", auth.currentUser.uid), {
-      profilePicture: photoURL,
-    });
-
-    dispatch(updateUser({ ...user, profilePicture: photoURL }));
+    // Display the selected image locally
+    const reader = new FileReader();
+    reader.onload = () => {
+      setProfilePicture(reader.result);
+    };
+    reader.readAsDataURL(file);
   };
 
   const handleProfilePictureRemove = async () => {
+    setUploading(true);
     const storageRef = ref(storage, `profilePictures/${auth.currentUser.uid}`);
     await deleteObject(storageRef);
 
     setProfilePicture(defaultProfile);
+    setNewProfilePicture(null);
 
     // Update the user's profile picture in Firestore
     await updateDoc(doc(db, "users", auth.currentUser.uid), {
@@ -79,6 +106,7 @@ const Profile = () => {
     });
 
     dispatch(updateUser({ ...user, profilePicture: "" }));
+    setUploading(false);
   };
 
   return (
@@ -89,7 +117,13 @@ const Profile = () => {
           <div className="profile-container">
             <h2>Profil Saya</h2>
             <div className="profile-picture">
-              <img src={profilePicture} alt="Profile" />
+              <div className="profile-picture-wrapper">
+                <img
+                  src={profilePicture}
+                  alt="Profile"
+                  className="profile-picture-img"
+                />
+              </div>
               <div className="profile-button">
                 <input
                   type="file"
@@ -98,13 +132,22 @@ const Profile = () => {
                   style={{ display: "none" }}
                   id="profilePictureUpload"
                 />
-                <label
-                  htmlFor="profilePictureUpload"
-                  className="profile-upload-button"
-                >
-                  Ubah Foto
+                <label htmlFor="profilePictureUpload" className="button">
+                  {uploading
+                    ? "Mengunggah..."
+                    : profilePicture === defaultProfile
+                    ? "Tambah Foto Profil"
+                    : "Ubah Foto"}
                 </label>
-                <button onClick={handleProfilePictureRemove}>Hapus Foto</button>
+                {profilePicture !== defaultProfile && (
+                  <button
+                    onClick={handleProfilePictureRemove}
+                    disabled={uploading}
+                    className="button"
+                  >
+                    {uploading ? "Menghapus..." : "Hapus Foto"}
+                  </button>
+                )}
                 <div className="ubah-foto-text">Maksimal 2MB</div>
               </div>
             </div>

@@ -2,9 +2,9 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   id: null,
-  name: "",
+  username: "",
   email: "",
-  profilePicture: "",
+  profilePicture: "", // Added profilePicture
 };
 
 const userSlice = createSlice({
@@ -13,12 +13,14 @@ const userSlice = createSlice({
   reducers: {
     loginUser: (state, action) => {
       state.id = action.payload.id;
-      state.name = action.payload.username;
+      state.username = action.payload.username;
       state.email = action.payload.email;
-      state.profilePicture = action.payload.profilePicture || "";
+      if (action.payload.profilePicture !== undefined) {
+        state.profilePicture = action.payload.profilePicture;
+      }
     },
     updateUser: (state, action) => {
-      state.name = action.payload.name;
+      state.username = action.payload.username;
       state.email = action.payload.email;
       if (action.payload.profilePicture !== undefined) {
         state.profilePicture = action.payload.profilePicture;
@@ -26,9 +28,9 @@ const userSlice = createSlice({
     },
     logoutUser: (state) => {
       state.id = null;
-      state.name = "";
+      state.username = "";
       state.email = "";
-      state.profilePicture = "";
+      state.profilePicture = ""; // Reset profilePicture on logout
     },
   },
 });

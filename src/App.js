@@ -34,6 +34,7 @@ function App() {
                 id: userAuth.uid,
                 username: userData.username,
                 email: userData.email,
+                profilePicture: userData.profilePicture || "",
               })
             );
           }
