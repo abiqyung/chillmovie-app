@@ -4,7 +4,7 @@ import chillLogo from "../assets/chill-logo.png";
 import profile from "../assets/profile.png";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { logout } from "../features/userSlice";
+import { logoutUser } from "../features/userSlice"; // Corrected import
 import { auth } from "../firebase";
 
 function Nav() {
@@ -52,10 +52,12 @@ function Nav() {
   }, [dropdownOpen]);
 
   const handleLogout = () => {
+    console.log("Logging out..."); // Debugging
     auth
       .signOut()
       .then(() => {
-        dispatch(logout());
+        console.log("Logout successful"); // Debugging
+        dispatch(logoutUser());
         navigate("/login");
       })
       .catch((error) => {

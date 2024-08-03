@@ -4,7 +4,6 @@ const initialState = {
   id: null,
   name: "",
   email: "",
-  profilePicture: "",
 };
 
 const userSlice = createSlice({
@@ -15,20 +14,15 @@ const userSlice = createSlice({
       state.id = action.payload.id;
       state.name = action.payload.username;
       state.email = action.payload.email;
-      state.profilePicture = action.payload.profilePicture || "";
     },
     updateUser: (state, action) => {
       state.name = action.payload.name;
       state.email = action.payload.email;
-      if (action.payload.profilePicture !== undefined) {
-        state.profilePicture = action.payload.profilePicture;
-      }
     },
     logoutUser: (state) => {
       state.id = null;
       state.name = "";
       state.email = "";
-      state.profilePicture = "";
     },
   },
 });

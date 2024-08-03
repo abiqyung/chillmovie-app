@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Home from "./page/Home";
 import Login from "./page/Login";
 import Register from "./page/Register";
+import Profile from "./page/Profilepage";
 import {
   BrowserRouter as Router,
   Route,
@@ -10,8 +11,9 @@ import {
 } from "react-router-dom";
 import { auth } from "./firebase";
 import { useDispatch, useSelector } from "react-redux";
-import { login, logout, selectUser } from "./features/userSlice";
-import Profile from "./page/Profilepage";
+import { loginUser, logoutUser, selectUser } from "./features/userSlice";
+import { getDoc, doc } from "firebase/firestore";
+import { db } from "./firebase";
 
 function App() {
   const user = useSelector(selectUser);
@@ -23,15 +25,23 @@ function App() {
       if (userAuth) {
         // Logged in
         console.log(userAuth);
-        dispatch(
-          login({
-            uid: userAuth.uid,
-            email: userAuth.email,
-          })
-        );
+        const fetchUserData = async () => {
+          const userDoc = await getDoc(doc(db, "users", userAuth.uid));
+          if (userDoc.exists()) {
+            const userData = userDoc.data();
+            dispatch(
+              loginUser({
+                id: userAuth.uid,
+                username: userData.username,
+                email: userData.email,
+              })
+            );
+          }
+        };
+        fetchUserData();
       } else {
         // Logged out
-        dispatch(logout());
+        dispatch(logoutUser());
       }
       setLoading(false); // Set loading to false once the auth state is resolved
     });
@@ -47,24 +57,27 @@ function App() {
     <div className="app">
       <Router>
         <Routes>
-          {!user ? (
-            <>
-              <Route path="/login" element={<Login />} />
-              <Route path="/register" element={<Register />} />
-              <Route path="*" element={<Navigate to="/login" />} />
-            </>
-          ) : (
-            <>
-              <Route path="/profile" element={<Profile />} />
-              <Route path="/" element={<Home />} />
-              <Route path="/login" element={<Navigate to="/" />} />
-              <Route path="/register" element={<Navigate to="/" />} />
-              <Route path="*" element={<Navigate to="/" />} />
-            </>
-          )}
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route
+            path="*"
+            element={
+              user ? <ProtectedRoutes /> : <Navigate to="/login" replace />
+            }
+          />
         </Routes>
       </Router>
     </div>
+  );
+}
+
+function ProtectedRoutes() {
+  return (
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/profile" element={<Profile />} />
+      <Route path="*" element={<Navigate to="/" />} />
+    </Routes>
   );
 }
 

@@ -37,6 +37,7 @@
   text-align: left;
 }
 
+#email,
 #username,
 #password,
 #confirm-password {

@@ -3,38 +3,54 @@ import "./Login.css";
 import Logo from "../assets/chill-logo.png";
 import logoGoogle from "../assets/logo-google.png";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../firebase"; // Import auth from firebase.js
-import { useNavigate } from "react-router-dom"; // Import useNavigate
+import { auth, db } from "../firebase";
+import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import { useDispatch } from "react-redux";
+import { doc, getDoc } from "firebase/firestore";
+import { loginUser } from "../features/userSlice";
 
 function Login() {
-  const usernameRef = useRef(null);
+  const emailRef = useRef(null);
   const passRef = useRef(null);
-  const navigate = useNavigate(); // Get the navigate function
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const [showPassword, setShowPassword] = useState(false);
-  const [showConfPassword, setShowConfPassword] = useState(false);
 
   const togglePasswordVisibility = () => {
     setShowPassword((prevShowPassword) => !prevShowPassword);
   };
 
-  const logged = (e) => {
+  const logged = async (e) => {
     e.preventDefault();
+    const email = emailRef.current.value;
+    const password = passRef.current.value;
 
-    signInWithEmailAndPassword(
-      auth,
-      usernameRef.current.value,
-      passRef.current.value
-    )
-      .then((authUser) => {
-        console.log(authUser);
-        navigate("/"); // Redirect to the home page upon successful login
-      })
-      .catch((error) => {
-        alert(error.message);
-      });
+    try {
+      const authUser = await signInWithEmailAndPassword(auth, email, password);
+      console.log("Login successful:", authUser);
+
+      // Retrieve user data from Firestore
+      const userDoc = await getDoc(doc(db, "users", authUser.user.uid));
+      if (userDoc.exists()) {
+        const userData = userDoc.data();
+        console.log("User data from Firestore:", userData); // Debugging
+        dispatch(
+          loginUser({
+            id: authUser.user.uid,
+            username: userData.username,
+            email: userData.email,
+          })
+        );
+      }
+
+      navigate("/");
+    } catch (error) {
+      console.error("Error logging in:", error.message);
+      alert(error.message);
+    }
   };
 
   const handleKeyPress = (e) => {
@@ -56,11 +72,11 @@ function Login() {
         </div>
         <form onKeyPress={handleKeyPress}>
           <div className="input-group">
-            <label htmlFor="username">E-mail</label>
+            <label htmlFor="email">E-mail</label>
             <input
-              ref={usernameRef}
-              type="text"
-              id="username"
+              ref={emailRef}
+              type="email"
+              id="email"
               placeholder="Masukkan e-mail"
             />
           </div>
