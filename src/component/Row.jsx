@@ -1,23 +1,87 @@
 import React, { useEffect, useState } from "react";
 import axios from "../axios";
 import "./Row.css";
-import { Button } from "react-bootstrap";
+import {
+  getFirestore,
+  doc,
+  updateDoc,
+  arrayUnion,
+  arrayRemove,
+  getDoc,
+} from "firebase/firestore";
+import { getAuth } from "firebase/auth";
 
 const base_url = "https://image.tmdb.org/t/p/original/";
 
-function Row({ title, fetchUrl, isLargeRow }) {
+function Row({ title, fetchUrl, isLargeRow, movies: propMovies }) {
   const [movies, setMovies] = useState([]);
+  const [userMovies, setUserMovies] = useState([]);
+  const db = getFirestore();
+  const auth = getAuth();
 
   useEffect(() => {
-    async function fetchData() {
-      const request = await axios.get(fetchUrl);
-      setMovies(request.data.results);
-      return request;
+    if (propMovies) {
+      setMovies(propMovies);
+    } else {
+      async function fetchData() {
+        const request = await axios.get(fetchUrl);
+        setMovies(request.data.results);
+        return request;
+      }
+      fetchData();
     }
-    fetchData();
-  }, [fetchUrl]);
+  }, [fetchUrl, propMovies]);
 
-  // console.log(movies);
+  useEffect(() => {
+    const fetchUserMovies = async (userId) => {
+      const userDoc = doc(db, "users", userId);
+      const userDocSnap = await getDoc(userDoc);
+      if (userDocSnap.exists()) {
+        setUserMovies(userDocSnap.data().myList || []);
+      }
+    };
+
+    const user = auth.currentUser;
+    if (user) {
+      fetchUserMovies(user.uid);
+    }
+  }, [auth, db]);
+
+  const toggleMyList = async (movie) => {
+    const user = auth.currentUser;
+    if (user) {
+      const userId = user.uid;
+      const userDoc = doc(db, "users", userId);
+      const updatedMovies = [...userMovies];
+
+      try {
+        const userDocSnap = await getDoc(userDoc);
+        const currentUserMovies = userDocSnap.exists()
+          ? userDocSnap.data().myList || []
+          : [];
+        if (currentUserMovies.some((m) => m.id === movie.id)) {
+          // Movie exists in list, remove it
+          await updateDoc(userDoc, {
+            myList: arrayRemove(movie),
+          });
+          setUserMovies(updatedMovies.filter((m) => m.id !== movie.id));
+          alert(`${movie.title} has been removed from your list.`);
+        } else {
+          // Movie does not exist in list, add it
+          await updateDoc(userDoc, {
+            myList: arrayUnion(movie),
+          });
+          setUserMovies([...updatedMovies, movie]);
+          alert(`${movie.title} has been added to your list.`);
+        }
+      } catch (error) {
+        console.error("Error updating movie in list:", error);
+      }
+    } else {
+      alert("Please log in to add or remove movies from your list.");
+    }
+  };
+
   return (
     <div className="row">
       <h2>{title}</h2>
@@ -37,15 +101,23 @@ function Row({ title, fetchUrl, isLargeRow }) {
               }`}
               alt={movie.name}
             />
-            {/* We should change this */}
             <div className="movie-info">
               <div className="movie-buttons">
-                <button class="play-button">
-                  <i class="fas fa-play"></i>
+                <button className="play-button">
+                  <i className="fas fa-play"></i>
                 </button>
 
-                <button className="checklist-button">
-                  <i className="fas fa-check"></i>
+                <button
+                  className="checklist-button"
+                  onClick={() => toggleMyList(movie)}
+                >
+                  <i
+                    className={
+                      userMovies.some((m) => m.id === movie.id)
+                        ? "fas fa-check"
+                        : "fa-solid fa-plus"
+                    }
+                  ></i>
                 </button>
 
                 <button
@@ -55,7 +127,7 @@ function Row({ title, fetchUrl, isLargeRow }) {
                   data-bs-toggle="dropdown"
                   aria-expanded="false"
                 >
-                  <i class="fa-solid fa-caret-down"></i>
+                  <i className="fa-solid fa-caret-down"></i>
                 </button>
               </div>
               <div className="movie-details">
