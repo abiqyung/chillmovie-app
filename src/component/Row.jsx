@@ -105,6 +105,7 @@ function Row({ title, fetchUrl, isLargeRow, movies: propMovies }) {
               <div className="movie-buttons">
                 <button className="play-button">
                   <i className="fas fa-play"></i>
+                  <span className="tooltip">Mulai</span>
                 </button>
 
                 <button
@@ -118,6 +119,11 @@ function Row({ title, fetchUrl, isLargeRow, movies: propMovies }) {
                         : "fa-solid fa-plus"
                     }
                   ></i>
+                  <span className="tooltip">
+                    {userMovies.some((m) => m.id === movie.id)
+                      ? "Keluarkan dari daftar saya"
+                      : "Tambah ke daftar saya"}
+                  </span>
                 </button>
 
                 <button
@@ -128,6 +134,7 @@ function Row({ title, fetchUrl, isLargeRow, movies: propMovies }) {
                   aria-expanded="false"
                 >
                   <i className="fa-solid fa-caret-down"></i>
+                  <span className="tooltip">Info</span>
                 </button>
               </div>
               <div className="movie-details">

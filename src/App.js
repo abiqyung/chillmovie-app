@@ -3,6 +3,7 @@ import Home from "./page/Home";
 import Login from "./page/Login";
 import Register from "./page/Register";
 import Profile from "./page/Profilepage";
+import Daftarsaya from "./page/Daftarsaya";
 import {
   BrowserRouter as Router,
   Route,
@@ -60,6 +61,7 @@ function App() {
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/daftarsaya" element={<Daftarsaya />} />
           <Route
             path="*"
             element={
@@ -78,6 +80,7 @@ function ProtectedRoutes() {
       <Route path="/" element={<Home />} />
       <Route path="/profile" element={<Profile />} />
       <Route path="*" element={<Navigate to="/" />} />
+      <Route path="/daftarsaya" element={<Daftarsaya />} />
     </Routes>
   );
 }

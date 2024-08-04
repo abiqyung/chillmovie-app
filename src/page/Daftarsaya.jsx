@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import Row from "../component/Row";
 import requests from "../requests";
-import Banner from "../component/Banner";
 import Nav from "../component/Nav";
 import Footer from "../component/Footer";
 import { getFirestore, doc, getDoc } from "firebase/firestore";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
+import "./Daftarsaya.css";
 
-function Home() {
+function Daftarsaya() {
   const [myList, setMyList] = useState([]);
   const db = getFirestore();
   const auth = getAuth();
@@ -33,25 +33,10 @@ function Home() {
   return (
     <div className="app">
       <Nav />
-      <Banner />
-      <Row
-        title="Melanjutkan Tonton Film"
-        fetchUrl={requests.fetchNetflixOriginals}
-      />
-      <Row
-        title="Top Rating Film dan Series Hari ini"
-        fetchUrl={requests.fetchTrending}
-        isLargeRow
-      />
-      <Row title="Film Trending" fetchUrl={requests.fetchTopRated} isLargeRow />
-      <Row
-        title="Rilis Baru"
-        fetchUrl={requests.fetchActionMovies}
-        isLargeRow
-      />
+      {myList.length > 0 && <Row title="My List" movies={myList} isLargeRow />}
       <Footer />
     </div>
   );
 }
 
-export default Home;
+export default Daftarsaya;

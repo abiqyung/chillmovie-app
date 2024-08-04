@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./Nav.css";
 import chillLogo from "../assets/chill-logo.png";
-import profile from "../assets/profile.png";
+import defaultProfile from "../assets/profile.png"; // Use this as a default profile picture
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { logoutUser } from "../features/userSlice"; // Corrected import
+import { useDispatch, useSelector } from "react-redux";
+import { logoutUser, selectUser } from "../features/userSlice"; // Corrected import
 import { auth } from "../firebase";
 
 function Nav() {
@@ -13,6 +13,7 @@ function Nav() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const dropdownRef = useRef(null);
+  const user = useSelector(selectUser); // Get user from Redux state
 
   const toggleDropdown = () => {
     setDropdownOpen((prevState) => !prevState);
@@ -68,7 +69,11 @@ function Nav() {
   return (
     <div className={`nav ${show && "nav__black"}`}>
       <div className="nav__profile" onClick={toggleDropdown}>
-        <img className="nav__avatar" src={profile} alt="Profile" />
+        <img
+          className="nav__avatar"
+          src={user.profilePicture || defaultProfile}
+          alt="Profile"
+        />
         {dropdownOpen && (
           <div ref={dropdownRef} className="dropdown-menu">
             <Link to="/Profile" className="dropdown-item">
@@ -95,7 +100,7 @@ function Nav() {
       <a href="#" className="nav__menu">
         Film
       </a>
-      <a href="#" className="nav__menu">
+      <a href="/daftarsaya" className="nav__menu">
         Daftar Saya
       </a>
     </div>
