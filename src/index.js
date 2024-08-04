@@ -5,7 +5,8 @@ import App from "./App";
 import { Provider } from "react-redux";
 import store from "./app/store"; // Adjust the path as needed
 
-const root = ReactDOM.createRoot(document.getElementById("root"));
+const rootElement = document.getElementById("root");
+const root = ReactDOM.createRoot(rootElement);
 root.render(
   <React.StrictMode>
     <Provider store={store}>

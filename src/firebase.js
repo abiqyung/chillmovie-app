@@ -1,23 +1,20 @@
-// Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
-import { getStorage } from "firebase/storage"; // Import Firebase Storage
+import { getStorage } from "firebase/storage";
 
-// Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyAPwSuySuMJdz_lOcR-fa3Tw1oZAyCihEo",
-  authDomain: "chillmovie-app.firebaseapp.com",
-  projectId: "chillmovie-app",
-  storageBucket: "chillmovie-app.appspot.com",
-  messagingSenderId: "712118141745",
-  appId: "1:712118141745:web:51e3d8ccb29e87c6262610",
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_FIREBASE_APP_ID,
 };
 
-// Initialize Firebase
 const firebaseApp = initializeApp(firebaseConfig);
 const db = getFirestore(firebaseApp);
 const auth = getAuth(firebaseApp);
-const storage = getStorage(firebaseApp); // Initialize Firebase Storage
+const storage = getStorage(firebaseApp);
 
-export { auth, db, storage }; // Export auth, db, and storage
+export { auth, db, storage };

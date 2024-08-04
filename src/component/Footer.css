@@ -7,7 +7,6 @@
 
 .footer-content {
   display: flex;
-  /* justify-content: space-around; */
   flex-wrap: wrap;
   text-align: left;
 }
@@ -46,6 +45,10 @@
 .footer-genres h4,
 .footer-help h4 {
   margin-bottom: 10px;
+  cursor: pointer; /* Add cursor pointer for dropdown */
+  display: flex;
+  justify-content: space-between; /* Ensure space between text and icon */
+  align-items: center; /* Center align the icon */
 }
 
 .footer-genres-list {
@@ -76,44 +79,45 @@
   gap: 5px;
 }
 
-@media (max-width: 1147px) {
-  .footer-logo {
-    display: flex;
+/* Hide dropdown icons by default */
+.dropdown-icon {
+  display: none;
+}
+
+/* Media Queries */
+@media (max-width: 480px) {
+  .footer-content {
     flex-direction: column;
-    align-items: center;
-    margin-bottom: 20px;
+    align-items: flex-start;
   }
 
-  .footer-logo .logo {
-    width: 50px;
-    margin-bottom: 10px;
+  .footer-genres,
+  .footer-help {
+    width: 100%;
+    padding-left: 0;
   }
 
-  .chill-logo {
-    width: 4em;
+  .footer-genres-group,
+  .footer-help ul {
+    display: none; /* Hide lists by default on mobile */
   }
 
-  p {
-    font-size: 0.6rem;
+  .footer-genres-group.open,
+  .footer-help ul.open {
+    display: block; /* Show lists when their respective sections are open */
   }
 
-  .footer-genres {
-    width: 20rem;
-    padding-left: 1rem;
-  }
-
-  .footer-genres-list,
-  .footer-help-list {
-    text-decoration: none;
-    color: white;
-    padding: 0.8%;
+  .footer-genres h4,
+  .footer-help h4 {
     display: block;
-    font-size: 0.65rem;
+    width: 100%;
+    text-align: left;
+    cursor: pointer; /* Add cursor pointer for dropdown */
   }
 
-  .footer-genres-group {
-    display: grid;
-    grid-template-columns: 0.8fr 1.5fr 0.7fr 0.8fr;
-    gap: 5px;
+  /* Show dropdown icons on mobile */
+  .dropdown-icon {
+    display: inline-block;
+    margin-left: 10px; /* Add space between text and icon */
   }
 }
