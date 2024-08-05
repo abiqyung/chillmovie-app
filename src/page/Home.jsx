@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Row from "../component/Row";
-import requests from "../requests";
+import requests from "../services/requests";
 import Banner from "../component/Banner";
 import Nav from "../component/Nav";
 import Footer from "../component/Footer";
