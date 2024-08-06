@@ -63,29 +63,6 @@ function Nav() {
 
   return (
     <div className={`nav ${show && "nav__black"}`}>
-      <div className="nav__profile" onClick={toggleDropdown} ref={dropdownRef}>
-        <img
-          className="nav__avatar"
-          src={user.profilePicture || defaultProfile}
-          alt="Profile"
-        />
-        {dropdownOpen && (
-          <div className="dropdown-menu">
-            <Link to="/Profile" className="dropdown-item">
-              <i className="fas fa-user dropdown-icon"></i>
-              {"     "}Profil Saya
-            </Link>
-            <div className="dropdown-item">
-              <i className="fas fa-star dropdown-icon"></i>
-              {"     "}Ubah Premium
-            </div>
-            <div onClick={handleLogout} className="dropdown-item">
-              <i className="fas fa-sign-out-alt dropdown-icon"></i>
-              {"     "}Keluar
-            </div>
-          </div>
-        )}
-      </div>
       <a href="/">
         <img className="nav__logo" src={chillLogo} alt="Chill_logo" />
       </a>
@@ -98,6 +75,41 @@ function Nav() {
       <a href="/daftarsaya" className="nav__menu">
         Daftar Saya
       </a>
+      <div className="nav__profile" ref={dropdownRef}>
+        {user.id ? (
+          <>
+            <img
+              className="nav__avatar"
+              src={user.profilePicture || defaultProfile}
+              alt="Profile"
+              onClick={toggleDropdown}
+            />
+            {dropdownOpen && (
+              <div className="dropdown-menu">
+                <Link to="/Profile" className="dropdown-item">
+                  <i className="fas fa-user dropdown-icon"></i>
+                  {"     "}Profil Saya
+                </Link>
+                <div className="dropdown-item">
+                  <i className="fas fa-star dropdown-icon"></i>
+                  {"     "}Ubah Premium
+                </div>
+                <div onClick={handleLogout} className="dropdown-item">
+                  <i className="fas fa-sign-out-alt dropdown-icon"></i>
+                  {"     "}Keluar
+                </div>
+              </div>
+            )}
+          </>
+        ) : (
+          <button
+            className="nav__loginButton"
+            onClick={() => navigate("/login")}
+          >
+            Login
+          </button>
+        )}
+      </div>
     </div>
   );
 }
