@@ -304,3 +304,9 @@ h2 {
 .movie-info:hover {
   opacity: 1;
 }
+
+@media (max-width: 480px) {
+  h2 {
+    font-size: 1.3rem;
+  }
+}
