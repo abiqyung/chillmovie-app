@@ -1,20 +1,21 @@
 import React, { useEffect, useState } from "react";
-import Home from "./page/Home";
-import Login from "./page/Login";
-import Register from "./page/Register";
-import Profile from "./page/Profilepage";
-import Daftarsaya from "./page/Daftarsaya";
 import {
   BrowserRouter as Router,
   Route,
   Routes,
   Navigate,
 } from "react-router-dom";
-import { auth } from "./firebase";
 import { useDispatch, useSelector } from "react-redux";
-import { loginUser, logoutUser, selectUser } from "./features/userSlice";
+import { auth } from "./firebase";
 import { getDoc, doc } from "firebase/firestore";
 import { db } from "./firebase";
+import Home from "./page/Home";
+import Login from "./page/Login";
+import Register from "./page/Register";
+import Profile from "./page/Profilepage";
+import Daftarsaya from "./page/Daftarsaya";
+import { loginUser, logoutUser, selectUser } from "./features/userSlice";
+import ProtectedRoute from "./ProtectedRoute";
 
 function App() {
   const user = useSelector(selectUser);
@@ -22,37 +23,31 @@ function App() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((userAuth) => {
+    const unsubscribe = auth.onAuthStateChanged(async (userAuth) => {
       if (userAuth) {
-        // Logged in
-        console.log(userAuth);
-        const fetchUserData = async () => {
-          const userDoc = await getDoc(doc(db, "users", userAuth.uid));
-          if (userDoc.exists()) {
-            const userData = userDoc.data();
-            dispatch(
-              loginUser({
-                id: userAuth.uid,
-                username: userData.username,
-                email: userData.email,
-                profilePicture: userData.profilePicture || "",
-              })
-            );
-          }
-        };
-        fetchUserData();
+        const userDoc = await getDoc(doc(db, "users", userAuth.uid));
+        if (userDoc.exists()) {
+          const userData = userDoc.data();
+          dispatch(
+            loginUser({
+              id: userAuth.uid,
+              username: userData.username,
+              email: userData.email,
+              profilePicture: userData.profilePicture || "",
+            })
+          );
+        }
       } else {
-        // Logged out
         dispatch(logoutUser());
       }
-      setLoading(false); // Set loading to false once the auth state is resolved
+      setLoading(false);
     });
 
     return unsubscribe;
   }, [dispatch]);
 
   if (loading) {
-    return <div>Loading...</div>; // or a loading spinner
+    return <div>Loading...</div>;
   }
 
   return (
@@ -61,27 +56,22 @@ function App() {
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/daftarsaya" element={<Daftarsaya />} />
+          <Route path="/" element={<ProtectedRoute element={<Home />} />} />
+          <Route
+            path="/profile"
+            element={<ProtectedRoute element={<Profile />} />}
+          />
+          <Route
+            path="/daftarsaya"
+            element={<ProtectedRoute element={<Daftarsaya />} />}
+          />
           <Route
             path="*"
-            element={
-              user ? <ProtectedRoutes /> : <Navigate to="/login" replace />
-            }
+            element={<Navigate to={user ? "/" : "/login"} replace />}
           />
         </Routes>
       </Router>
     </div>
-  );
-}
-
-function ProtectedRoutes() {
-  return (
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/profile" element={<Profile />} />
-      <Route path="*" element={<Navigate to="/" />} />
-      <Route path="/daftarsaya" element={<Daftarsaya />} />
-    </Routes>
   );
 }
 

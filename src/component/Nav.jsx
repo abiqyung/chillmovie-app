@@ -41,16 +41,11 @@ function Nav() {
   }, []);
 
   useEffect(() => {
-    if (dropdownOpen) {
-      document.addEventListener("mousedown", handleClickOutside);
-    } else {
-      document.removeEventListener("mousedown", handleClickOutside);
-    }
-
+    document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [dropdownOpen]);
+  }, []);
 
   const handleLogout = () => {
     console.log("Logging out..."); // Debugging
@@ -68,14 +63,14 @@ function Nav() {
 
   return (
     <div className={`nav ${show && "nav__black"}`}>
-      <div className="nav__profile" onClick={toggleDropdown}>
+      <div className="nav__profile" onClick={toggleDropdown} ref={dropdownRef}>
         <img
           className="nav__avatar"
           src={user.profilePicture || defaultProfile}
           alt="Profile"
         />
         {dropdownOpen && (
-          <div ref={dropdownRef} className="dropdown-menu">
+          <div className="dropdown-menu">
             <Link to="/Profile" className="dropdown-item">
               <i className="fas fa-user dropdown-icon"></i>
               {"     "}Profil Saya
