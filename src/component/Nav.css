@@ -207,4 +207,10 @@
     align-items: center;
     cursor: pointer;
   }
+
+  .nav__loginButton {
+    margin-left: 4rem;
+    padding: 0.4rem 0.7rem;
+    font-size: 9px;
+  }
 }
