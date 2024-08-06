@@ -220,3 +220,20 @@
   background-color: white;
   color: black;
 } */
+
+@media (max-width: 480px) {
+  .profile {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .subscription-status {
+    margin-left: 0;
+    padding: 0;
+  }
+
+  .profile h2 {
+    margin-left: 0;
+    padding-left: 0;
+  }
+}
