@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import Row from "../component/Row";
-import requests from "../services/requests";
+// import requests from "../services/requests";
 import Nav from "../component/Nav";
 import Footer from "../component/Footer";
 import { getFirestore, doc, getDoc } from "firebase/firestore";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import "./Daftarsaya.css";
+import "./Daftarsaya.module.css";
 
 function Daftarsaya() {
   const [myList, setMyList] = useState([]);
@@ -33,6 +33,7 @@ function Daftarsaya() {
   return (
     <div className="app">
       <Nav />
+      <h2>...</h2>
       {myList.length > 0 && <Row title="My List" movies={myList} isLargeRow />}
       <Footer />
     </div>
