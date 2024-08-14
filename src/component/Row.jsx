@@ -7,9 +7,9 @@ import {
   updateDoc,
   arrayUnion,
   arrayRemove,
-  getDoc,
 } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
+import getData from "../services/getData"; // Import the getData function
 
 const base_url = "https://image.tmdb.org/t/p/original/";
 
@@ -34,10 +34,9 @@ function Row({ title, fetchUrl, isLargeRow, movies: propMovies }) {
 
   useEffect(() => {
     const fetchUserMovies = async (userId) => {
-      const userDoc = doc(db, "users", userId);
-      const userDocSnap = await getDoc(userDoc);
-      if (userDocSnap.exists()) {
-        setUserMovies(userDocSnap.data().myList || []);
+      const userData = await getData(db, "users", userId);
+      if (userData) {
+        setUserMovies(userData.myList || []);
       }
     };
 
@@ -51,24 +50,22 @@ function Row({ title, fetchUrl, isLargeRow, movies: propMovies }) {
     const user = auth.currentUser;
     if (user) {
       const userId = user.uid;
-      const userDoc = doc(db, "users", userId);
       const updatedMovies = [...userMovies];
 
       try {
-        const userDocSnap = await getDoc(userDoc);
-        const currentUserMovies = userDocSnap.exists()
-          ? userDocSnap.data().myList || []
-          : [];
-        if (currentUserMovies.some((m) => m.id === movie.id)) {
+        const currentUserMovies = await getData(db, "users", userId);
+        const currentMoviesList = currentUserMovies?.myList || [];
+
+        if (currentMoviesList.some((m) => m.id === movie.id)) {
           // Movie exists in list, remove it
-          await updateDoc(userDoc, {
+          await updateDoc(doc(db, "users", userId), {
             myList: arrayRemove(movie),
           });
           setUserMovies(updatedMovies.filter((m) => m.id !== movie.id));
           alert(`${movie.title} has been removed from your list.`);
         } else {
           // Movie does not exist in list, add it
-          await updateDoc(userDoc, {
+          await updateDoc(doc(db, "users", userId), {
             myList: arrayUnion(movie),
           });
           setUserMovies([...updatedMovies, movie]);

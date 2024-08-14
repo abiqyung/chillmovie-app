@@ -4,8 +4,9 @@ import requests from "../services/requests";
 import Banner from "../component/Banner";
 import Nav from "../component/Nav";
 import Footer from "../component/Footer";
-import { getFirestore, doc, getDoc } from "firebase/firestore";
+import { getFirestore } from "firebase/firestore";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
+import getData from "../services/getData"; // Import the getData function
 
 function Home() {
   const [myList, setMyList] = useState([]);
@@ -14,10 +15,9 @@ function Home() {
 
   useEffect(() => {
     const fetchMyList = async (userId) => {
-      const userDoc = doc(db, "users", userId);
-      const docSnap = await getDoc(userDoc);
-      if (docSnap.exists()) {
-        setMyList(docSnap.data().myList || []);
+      const userData = await getData(db, "users", userId); // Use getData here
+      if (userData) {
+        setMyList(userData.myList || []);
       } else {
         console.log("No such document!");
       }

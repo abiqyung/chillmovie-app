@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch } from "react-redux";
-import { doc, getDoc } from "firebase/firestore";
+import getData from "../services/getData"; // Import the getData function
 import { loginUser } from "../features/userSlice";
 
 function Login() {
@@ -32,10 +32,9 @@ function Login() {
       const authUser = await signInWithEmailAndPassword(auth, email, password);
       console.log("Login successful:", authUser);
 
-      // Retrieve user data from Firestore
-      const userDoc = await getDoc(doc(db, "users", authUser.user.uid));
-      if (userDoc.exists()) {
-        const userData = userDoc.data();
+      // Use getData to retrieve user data from Firestore
+      const userData = await getData(db, "users", authUser.user.uid);
+      if (userData) {
         console.log("User data from Firestore:", userData); // Debugging
         dispatch(
           loginUser({
